@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "module": "es6",
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types"
+        ],
+        "moduleResolution": "Node"
+    },
+    "ts-node": {
+        "esm": true
+    }
+}
