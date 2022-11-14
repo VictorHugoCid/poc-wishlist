@@ -17,7 +17,10 @@ CREATE TABLE "sessions" (
 
 CREATE TABLE "films" (
 	"id" serial PRIMARY KEY,
-	"name" text NOT NULL,
+	"title" text NOT NULL,
+	"pĺatform" text NOT NULL,
+	"type" text NOT NULL,
+	"userId" integer NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
 );
 

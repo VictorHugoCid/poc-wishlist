@@ -2,14 +2,9 @@ import express from 'express'
 
 import filmRouter from './router/filmRouter.js'
 
-const server = express();
+const app = express();
+app.use(express.json())
 
-server.get('/health', (req, res) => {
-    res.send('ok')
-})
+app.use(filmRouter)
 
-// server.get('/films', /* convertCLTtoPJ */)
-// server.get('/jobs', /* listAllJobs */)
-server.use(filmRouter)
-
-server.listen(4000, () => console.log('ta executando...'))
+app.listen(4000, () => console.log('ta executando...'))

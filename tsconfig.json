@@ -13,3 +13,10 @@
         "esm": true
     }
 }
+/* "baseUrl":".",
+        "paths":{
+            "joi":[
+                "node_modules/joi/dist/joi-browser.min"
+            ]
+        }, 
+*/

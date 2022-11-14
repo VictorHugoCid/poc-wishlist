@@ -1,11 +1,15 @@
 import { Request, Response } from 'express'
 import { filmRepositorie } from '../repositories/filmRepositorie.js'
+import { Film } from '../protocols/Film.js'
+import { FilmSchema } from '../schema/filmSchema.js'
+import { QueryResult } from 'pg'
 
 
-function getFilms(req: Request, res: Response) {
+async function getFilms(req: Request, res: Response): Promise<void>{
 
+    const userId: number = 2
     try {
-        const films = filmRepositorie.getFilmsByUserId
+        const { rows: films } = await filmRepositorie.getFilmsByUserId(userId)
 
         res.status(200).send(films)
     } catch (error) {
@@ -14,52 +18,80 @@ function getFilms(req: Request, res: Response) {
     }
 }
 
-function insertFilm(req: Request, res: Response) {
+async function insertFilm(req: Request, res: Response) {
+    const newFilm = req.body as Film
 
-    // const { userId, title, platform, type } = req.body
-    console.log('DADOS',req.body)
-    const film = req.body
-    // console.log('DADOS',userId, title, platform, type)
-    
-    try {
-        // filmRepositorie.insertFilm(userId, title, platform, type)
+    const { error } = FilmSchema.validate(newFilm)
 
-        res.status(200).json({
-            message:'ta passando no insertFilm',
-            film: film
+    if (error) {
+        return res.status(400).send({
+            message: error.message
         })
-    } catch (error) {
-        console.error(error)
-        res.sendStatus(500)
     }
 
-}
-
-function updateFilm(req: Request, res: Response) {
-
     try {
+        filmRepositorie.insertFilm(newFilm)
 
+        res.sendStatus(201)
     } catch (error) {
         console.error(error)
         res.sendStatus(500)
     }
 }
 
+async function updateFilm(req: Request, res: Response) {
+    const { filmId, userId } = req.body
+    console.log("🚀 ~ file: filmController.ts ~ line 44 ~ updateFilm ~ req.body", req.body)
 
-function deleteFilm(req: Request, res: Response) {
-
+    if(!filmId || !userId){
+        return res.status(400).send("filmId ou userId inválidos")
+    }
 
     try {
+        await filmRepositorie.updateFilm(filmId, userId)
 
+        res.status(200).send('atualização feita com sucesso')
     } catch (error) {
         console.error(error)
         res.sendStatus(500)
+    }
+}
+
+async function deleteFilm(req: Request, res: Response) {
+
+    const { filmId, userId } = req.body
+
+    try {
+        const film = await filmRepositorie.deleteFilm(filmId, userId)
+
+
+        res.sendStatus(200)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(500)
+    }
+}
+
+async function watchersRanking(req: Request, res: Response){
+
+
+    try {
+        const {rows : ranking} = await filmRepositorie.watchersRanking()
+
+        res.status(200).send(ranking)
+        
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(500)        
     }
 }
 
 export {
     insertFilm,
-    getFilms
+    getFilms,
+    updateFilm,
+    deleteFilm,
+    watchersRanking
 
 
 }
