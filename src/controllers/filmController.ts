@@ -5,13 +5,14 @@ import { FilmSchema } from '../schema/filmSchema.js'
 import { QueryResult } from 'pg'
 
 
-async function getFilms(req: Request, res: Response): Promise<void>{
+async function getFilms(req: Request, res: Response){
 
     const userId: number = 2
     try {
         const { rows: films } = await filmRepositorie.getFilmsByUserId(userId)
 
-        res.status(200).send(films)
+        return res.status(200).send(films)
+        // res.status(200).send(films)
     } catch (error) {
         console.error(error)
         res.sendStatus(500)
