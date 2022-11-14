@@ -1,8 +1,27 @@
-WishList Films
+# WishList Films
+
+## Resumo
 
 Nesse projeto temos 5 rotas que auxiliam à criar uma wishlist. Pra essas rotas usei o CRUD como referência. O projeto não tem uma sessão de login, 
 portanto a id do usuário está sem colocada manualmente no body no momento da criação de cada filme salvo. Além das 4 rotas padrão do CRUD existe uma 
 quinta rota que "rankeia" o usuário que assistiu mais filmes. Documentação da API
+
+## Para rodar:
+1-  Clone o repositório
+
+2- instale as dependências
+
+3- crie um banco com nome 'wishlist' e use o dump.sql
+
+4- rode na pasta do projeto
+
+```
+npm run dev
+``` 
+
+## Detalhes da API:
+
+
 ``` 
 Create - POST na rota "/films" - cria um novo item na lista. Necessita de um body no seguinte formato:
         body = {
